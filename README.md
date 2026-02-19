@@ -137,26 +137,13 @@ Neurocore is source-available under the **Business Source License 1.1 (BSL 1.1)*
 
 ### Tier Comparison
 
-| Tier | Price | Repository Access | Includes |
-|---|---|---|---|
-| **Researcher** | $5/mo | `neurocore` (N1 SDK) | Full N1 source, 3,091 tests, CPU/GPU/FPGA backends, non-commercial use |
-| **Startup** | $25/mo | `neurocore` (N1 SDK) | Everything in Researcher + commercial licence for teams up to 5 |
-| **Lab** | $100/mo | `neurocore` + `catalyst-n2` | N1 + **full N2 source** (Loihi 2 parity), priority issues, pre-release builds |
-| **Enterprise** | $500/mo | `neurocore` + `catalyst-n2` | Everything in Lab + unlimited commercial, 2hr/mo consulting, logo placement |
-| **Partner** | $1,000/mo | `neurocore` + `catalyst-n2` | Everything in Enterprise + same-day support, roadmap influence, FPGA bitstreams |
-
-### What's in each repository?
-
-| | `neurocore` (N1) | `catalyst-n2` (N2) |
+| Tier | Price | What You Get |
 |---|---|---|
-| Loihi parity | Loihi 1\* | Loihi 2\* |
-| SDK + tests | v3.7.0, 3,091 tests | Full N2 SDK |
-| RTL / Verilog | N1 processor HDL | N2 processor HDL |
-| FPGA validation | AWS F2 (VU47P) | AWS F2 + Arty A7 |
-| Graded spikes | Yes | Yes |
-| Stochastic rounding | No | Yes |
-| GPU learning fidelity | Basic | HW-accurate (P238) |
-| Fixed-point defaults | No | Yes (strict SRAM) |
+| **Supporter** | $5/mo | Badge, updates, early announcements — no source access |
+| **Researcher** | $25/mo | Full N1 + N2 source, all 3,091 tests, CPU/GPU/FPGA backends, non-commercial use |
+| **Professional** | $100/mo | Everything in Researcher + priority support, pre-release builds, commercial licence |
+| **Institutional** | $500/mo | Everything in Professional + 2hr/mo consulting, custom features, logo placement |
+| **Enterprise** | $1,000/mo | Everything in Institutional + same-day support, roadmap influence, FPGA bitstreams |
 
 ---
 
@@ -168,15 +155,11 @@ Neurocore is source-available under the **Business Source License 1.1 (BSL 1.1)*
   </a>
 </p>
 
-1. **Choose a tier** at [github.com/sponsors/Mr-wabbit](https://github.com/sponsors/Mr-wabbit)
+1. **Choose a tier** at [github.com/sponsors/Mr-wabbit](https://github.com/sponsors/Mr-wabbit) — source access starts at $25/mo
 2. **Access is granted automatically** — no waiting, no approval process
-3. **Clone and start building** — full source, all tests, all backends
+3. **Clone and start building** — full N1 + N2 source, all tests, all backends
 
-| $5–$25/mo | $100–$1,000/mo |
-|---|---|
-| `git clone` [`catalyst-neuromorphic/neurocore`](https://github.com/catalyst-neuromorphic/neurocore) | Everything at left, plus: |
-| N1 SDK, RTL, tests, paper | `git clone` [`catalyst-neuromorphic/catalyst-n2`](https://github.com/catalyst-neuromorphic/catalyst-n2) |
-| | Full Loihi 2 parity, N2 RTL, advanced features |
+All source tiers ($25+) include complete N1 + N2 SDK, RTL, tests, and documentation.
 
 ---
 
