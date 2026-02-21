@@ -1,5 +1,7 @@
 # Catalyst Neurocore SDK
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg)](https://zenodo.org/records/18727094)
+
 **Python SDK for the Catalyst neuromorphic processor family — 128 cores, 131K neurons, Loihi 2 feature parity*, 85.9% SHD benchmark.**
 
 > *Source-available under BSL 1.1. Free for non-commercial research. Commercial use requires a paid licence.*
@@ -184,7 +186,9 @@ Don't want to install anything? Use **Catalyst Cloud** — neuromorphic compute 
 >
 > 128-core neuromorphic processor, 131K neurons, programmable microcode learning engine (16 registers, 14 opcodes), STDP + 3-factor reward learning, triple RV32IMF RISC-V cluster, FPGA-validated (AWS F2 VU47P at 62.5 MHz), 85.9% SHD benchmark.
 
-Paper PDF available to sponsors in the private repository.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg)](https://zenodo.org/records/18727094)
+
+**[Read the paper on Zenodo](https://zenodo.org/records/18727094)** | **[Download PDF](https://zenodo.org/records/18727094/files/Catalyst_N1_Paper.pdf)**
 
 ---
 
