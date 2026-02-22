@@ -1,24 +1,21 @@
-# Catalyst Neurocore SDK
+# Catalyst Neurocore
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg)](https://zenodo.org/records/18727094)
 
-**Python SDK for the Catalyst neuromorphic processor family — 128 cores, 131K neurons, Loihi 2 feature parity*, 85.9% SHD benchmark.**
+**Neuromorphic processor architecture — 128 cores, 131K neurons, full Loihi 2 feature parity, 85.9% SHD benchmark.**
 
-> *Source-available under BSL 1.1. Free for non-commercial research. Commercial use requires a paid licence.*
+> Two generations of neuromorphic silicon. Validated on real FPGA hardware. Accessible via cloud API or dedicated dev boards.
 
 ---
 
-## What is this?
+## What is Catalyst?
 
-Neurocore is a complete software development kit for designing, compiling, and simulating spiking neural networks on the Catalyst neuromorphic architecture. It includes:
+Catalyst is a neuromorphic processor family designed for energy-efficient spiking neural network inference and on-chip learning. The architecture runs hardware-accurate LIF neuron dynamics, programmable synaptic plasticity, and dendritic computation — all at a fraction of the power consumed by conventional GPUs.
 
-- **Network builder** — Python API to define populations, connections, learning rules, and stimuli
-- **Density-weighted compiler** — maps networks to hardware with CSR synapse encoding
-- **CPU simulator** — cycle-accurate, bit-exact hardware model
-- **GPU simulator** — 100-1000x speedup via PyTorch sparse CSR (CUDA)
-- **FPGA backend** — deploy to Xilinx Arty A7-100T or AWS F2 (VU47P)
+**Two ways to use it:**
 
-One SDK. Three backends. Zero cloud dependencies.
+- **Catalyst Cloud** — REST API for neuromorphic simulation. No hardware, no install. Free tier available.
+- **FPGA Dev Boards** — Physical hardware with the Catalyst bitstream. Deploy at the edge.
 
 ---
 
@@ -27,7 +24,7 @@ One SDK. Three backends. Zero cloud dependencies.
 | Feature | Catalyst N1 | Catalyst N2 |
 |---|---|---|
 | Cores | 128 | 128 |
-| Neurons/core | 1,024 (CUBA LIF) | 1,024 (CUBA LIF) |
+| Neurons/core | 1,024 (CUBA LIF) | 1,024 (programmable microcode) |
 | Total neurons | 131,072 | 131,072 |
 | Synapses/core | 131K (CSR compressed) | 131K (CSR compressed) |
 | State precision | 24-bit fixed-point | 24-bit fixed-point |
@@ -40,48 +37,24 @@ One SDK. Three backends. Zero cloud dependencies.
 | 3-factor reward learning | Yes | Yes |
 | Homeostatic normalization | Yes | Yes |
 | Stochastic threshold noise | Per-neuron LFSR | Per-neuron LFSR |
-| Synapse encodings | Sparse, Dense, Population | Sparse, Dense, Population |
+| Synapse encodings | Sparse, Dense, Population | Sparse, Dense, Population + Convolutional |
+| Neuron models | CUBA LIF | CUBA, Izhikevich, Adaptive LIF, Sigma-Delta, Resonate-and-Fire |
 | Embedded processors | Triple RV32IMF RISC-V | Triple RV32IMF RISC-V |
-| **Loihi parity** | **Loihi 1\*** | **Loihi 2\*** |
+| **Loihi parity** | **Loihi 1** | **Loihi 2** |
 
-
-> **\*** *Catalyst matches or exceeds all Loihi functional features (neuron models, learning engine, compartments, graded spikes, delays, noise, synapse formats). Synapse counts per core differ from Loihi's physical implementation. The "parity" designation refers to architectural feature equivalence, not identical physical specifications.*
+> *Catalyst matches or exceeds all Loihi functional features (neuron models, learning engine, compartments, graded spikes, delays, noise, synapse formats). The "parity" designation refers to architectural feature equivalence, not identical physical specifications.*
 
 ---
 
-## SDK Scale
+## Validation
 
 | Metric | Value |
 |---|---|
-| Test suite | **3,091 tests** |
-| Features | **155 total** (152 FULL, 3 HW_ONLY) |
-| Backends | CPU, GPU (CUDA), FPGA |
+| SDK test suite | **3,091 tests** |
+| Feature coverage | **155 total** (152 FULL, 3 HW_ONLY) |
+| FPGA validation | 28/28 pass (AWS F2, Xilinx VU47P, 62.5 MHz) |
 | RTL testbenches | 25 (98 scenarios, 0 failures) |
 | SHD benchmark | **85.9%** (float) / **85.4%** (quantized) |
-| SDK version | v3.7.0 |
-
----
-
-## Quick Example
-
-```python
-import neurocore as nc
-
-# Build a network
-net = nc.Network()
-inp = net.population(100, params={"threshold": 1000, "leak": 10}, label="input")
-hid = net.population(50, params={"threshold": 1000}, label="hidden")
-net.connect(inp, hid, topology="random_sparse", p=0.3, weight=500)
-
-# Compile and run
-sim = nc.Simulator(net, backend="cpu")  # or "gpu", "fpga"
-sim.inject(inp, current=5000, timesteps=range(100))
-result = sim.run(1000)
-
-# Analyse
-print(result.firing_rates())
-print(result.spike_trains("hidden"))
-```
 
 ---
 
@@ -99,7 +72,7 @@ Spoken digit classification (20 classes, 700 input channels, temporal spike patt
 
 Trained with surrogate gradient descent, deployed on Catalyst hardware model with full fixed-point dynamics.
 
-### Performance
+### Simulation Performance
 
 | Backend | 1K neurons, 1K timesteps | 32K neurons, 10K timesteps |
 |---|---|---|
@@ -125,70 +98,89 @@ Full comparison against Intel Loihi 1 and Loihi 2:
 | Homeostasis | Yes | Yes | Yes |
 | Programmable delays | Yes | Yes | Yes |
 | Embedded processors | 3x LMT | 6x LMT | 3x RV32IMF |
-| **Score** | **10/10** | **10/10** | **10/10\*** |
+| **Score** | **10/10** | **10/10** | **10/10** |
 
 ---
 
-## Licensing
+## Try It Now
 
-Neurocore is source-available under the **Business Source License 1.1 (BSL 1.1)**.
+### Catalyst Cloud API
 
-- **Non-commercial research**: Free. Clone, read, modify, publish papers.
-- **Commercial use**: Requires a paid licence via GitHub Sponsors.
-- **Converts to Apache 2.0**: January 2030.
+Neuromorphic compute as a service. Define a network, submit a job, get spikes back.
 
-### Tier Comparison
+```python
+import catalyst_cloud as cc
 
-| Tier | Price | What You Get |
-|---|---|---|
-| **Supporter** | $5/mo | Badge, updates, early announcements — no source access |
-| **Researcher** | $25/mo | Full N1 + N2 source, all 3,091 tests, CPU/GPU/FPGA backends, non-commercial use |
-| **Professional** | $100/mo | Everything in Researcher + priority support, pre-release builds, commercial licence |
-| **Institutional** | $500/mo | Everything in Professional + 2hr/mo consulting, custom features, logo placement |
-| **Enterprise** | $1,000/mo | Everything in Institutional + same-day support, roadmap influence, FPGA bitstreams |
+# Sign up (once)
+account = cc.Client.signup("you@lab.edu")
+print(account["api_key"])  # Save this
+
+# Create a client
+client = cc.Client("cn_live_...")
+
+# Define a network
+net = client.create_network(
+    populations=[
+        {"label": "input", "size": 100, "params": {"threshold": 1000}},
+        {"label": "hidden", "size": 50},
+    ],
+    connections=[
+        {"source": "input", "target": "hidden", "topology": "random_sparse",
+         "weight": 500, "p": 0.3},
+    ],
+)
+
+# Run simulation (blocking)
+result = client.simulate(
+    network_id=net["network_id"],
+    timesteps=1000,
+    stimuli=[{"population": "input", "current": 5000}],
+)
+
+print(result["result"]["firing_rates"])
+```
+
+```bash
+pip install catalyst-cloud
+```
+
+- **Free tier**: 10 jobs/day, 1,024 neurons, no credit card
+- **Paid tiers**: Higher limits, priority compute, dedicated support
+- **Interactive demo**: [HuggingFace Spaces](https://huggingface.co/spaces/Catalyst-Neuromorphic/catalyst-cloud)
+
+[Cloud Pricing](https://catalyst-neuromorphic.com/cloud/pricing) | [API Docs](https://catalyst-neuromorphic.com/cloud/docs)
+
+### FPGA Dev Boards
+
+Physical hardware with the Catalyst bitstream. Coming to [Crowd Supply](https://www.crowdsupply.com/).
 
 ---
 
-## Get Access
+## Support Development
 
 <p align="center">
   <a href="https://github.com/sponsors/Mr-wabbit">
-    <img src="https://img.shields.io/badge/Sponsor-Get_Access-EA4AAA?style=for-the-badge&logo=github-sponsors&logoColor=white" alt="Sponsor on GitHub" />
+    <img src="https://img.shields.io/badge/Sponsor-Support_Catalyst-EA4AAA?style=for-the-badge&logo=github-sponsors&logoColor=white" alt="Sponsor on GitHub" />
   </a>
 </p>
 
-1. **Choose a tier** at [github.com/sponsors/Mr-wabbit](https://github.com/sponsors/Mr-wabbit) — source access starts at $25/mo
-2. **Access is granted automatically** — no waiting, no approval process
-3. **Clone and start building** — full N1 + N2 source, all tests, all backends
-
-All source tiers ($25+) include complete N1 + N2 SDK, RTL, tests, and documentation.
+Back independent neuromorphic silicon development via [GitHub Sponsors](https://github.com/sponsors/Mr-wabbit). Sponsors get compute credits for the Catalyst Cloud API, priority access to hardware, and early access to new features.
 
 ---
 
-## Try Without Installing
-
-Don't want to install anything? Use **Catalyst Cloud** — neuromorphic compute as a service:
-
-- **REST API**: `curl` in, spikes out. No SDK install required.
-- **Python client**: `pip install catalyst-cloud`
-- **Interactive demo**: [HuggingFace Spaces](https://huggingface.co/spaces/mrwabbit/catalyst-cloud)
-- **Free tier**: 10 jobs/day, 1K neurons, no credit card
-
-[cloud.catalyst-neuromorphic.com](https://catalyst-neuromorphic.com/cloud) | [API Docs](https://catalyst-neuromorphic.com/cloud/docs) | [RapidAPI](https://rapidapi.com/mrwabbit/api/catalyst-neuromorphic)
-
----
-
-## Paper
+## Papers
 
 > **Catalyst N1: A 131K-Neuron Open Neuromorphic Processor with Programmable Synaptic Plasticity and FPGA Validation**
 >
 > Henry Arthur Shulayev Barnes, University of Aberdeen
->
-> 128-core neuromorphic processor, 131K neurons, programmable microcode learning engine (16 registers, 14 opcodes), STDP + 3-factor reward learning, triple RV32IMF RISC-V cluster, FPGA-validated (AWS F2 VU47P at 62.5 MHz), 85.9% SHD benchmark.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg)](https://zenodo.org/records/18727094)
 
-**[Read the paper on Zenodo](https://zenodo.org/records/18727094)** | **[Download PDF](https://zenodo.org/records/18727094/files/Catalyst_N1_Paper.pdf)**
+> **Catalyst N2: Full Loihi 2 Feature Parity in an Open Neuromorphic Processor with Programmable Neuron Microcode and Cloud FPGA Validation**
+>
+> Henry Arthur Shulayev Barnes, University of Aberdeen
+
+**[N1 Paper (Zenodo)](https://zenodo.org/records/18727094)** | **[N2 Paper (PDF)](https://catalyst-neuromorphic.com/papers/catalyst-n2.pdf)**
 
 ---
 
