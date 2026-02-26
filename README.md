@@ -194,3 +194,4 @@ Back independent neuromorphic silicon development via [GitHub Sponsors](https://
 ---
 
 *Built by one person. 238 development phases. <!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> tests. Loihi 2 feature parity.*
+
