@@ -3,7 +3,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg)](https://zenodo.org/records/18727094) 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18728256.svg)](https://zenodo.org/records/18728256)
 
-**Neuromorphic processor architecture — 128 cores, 131K neurons, full Loihi 2 feature parity, <!-- STAT:SHD_FLOAT -->85.9<!-- /STAT -->% SHD benchmark.**
+**Neuromorphic processor architecture — 128 cores, 131K neurons, full Loihi 2 feature parity, 90.7% SHD benchmark (beats Loihi 1).**
 
 > Two generations of neuromorphic silicon. Validated on real FPGA hardware. Accessible via cloud API or dedicated dev boards.
 
@@ -55,7 +55,7 @@ Catalyst is a neuromorphic processor family designed for energy-efficient spikin
 | Feature coverage | **<!-- STAT:FEATURES_TOTAL -->155<!-- /STAT --> total** (<!-- STAT:FEATURES_FULL -->152<!-- /STAT --> FULL, <!-- STAT:FEATURES_HW_ONLY -->3<!-- /STAT --> HW_ONLY) |
 | FPGA validation | 28/28 pass (AWS F2, Xilinx VU47P, 62.5 MHz) |
 | RTL testbenches | 25 (98 scenarios, 0 failures) |
-| SHD benchmark | **<!-- STAT:SHD_FLOAT -->85.9<!-- /STAT -->%** (float) / **<!-- STAT:SHD_QUANT -->85.4<!-- /STAT -->%** (quantized) |
+| SHD benchmark | **90.7%** (adLIF) / **<!-- STAT:SHD_FLOAT -->85.9<!-- /STAT -->%** (LIF baseline) |
 
 ---
 
@@ -63,14 +63,13 @@ Catalyst is a neuromorphic processor family designed for energy-efficient spikin
 
 Full benchmark suite: **[catalyst-neuromorphic/catalyst-benchmarks](https://github.com/catalyst-neuromorphic/catalyst-benchmarks)** — clone, train, deploy, reproduce.
 
-| Benchmark | Classes | Architecture | Neuron | Float Acc | Quant Acc | vs Loihi |
-|---|---|---|---|---|---|---|
-| **SHD** | 20 | 700→512→20 (rec) | LIF | **<!-- STAT:SHD_FLOAT -->85.9<!-- /STAT -->%** | **<!-- STAT:SHD_QUANT -->85.4<!-- /STAT -->%** | Loihi 2: 90.9% |
-| **SHD** | 20 | 700→512→20 (rec) | adLIF | *91%+ target* | *90%+ target* | Beat Loihi 1 (89%) |
-| **SSC** | 35 | 700→1024→512→35 (rec) | adLIF | *72%+ target* | *70%+ target* | Beat Loihi 2 (69.8%) |
-| **N-MNIST** | 10 | 2312→512→256→10 | adLIF | *98%+ target* | *97%+ target* | — |
-| **DVS Gesture** | 11 | 2048→512→256→11 (rec) | adLIF | *92%+ target* | *90%+ target* | Beat Loihi 1 (89.6%) |
-| **GSC KWS** | 12 | 80→512→12 (rec) | adLIF | *91%+ target* | *89%+ target* | Beat Loihi 1 (88.5%) |
+| Benchmark | Classes | Architecture | Neuron | Float Acc | vs Loihi |
+|---|---|---|---|---|---|
+| **SHD** | 20 | 700→1024→20 (rec) | adLIF | **90.7%** | Beats Loihi 1 (89.0%) |
+| **SSC** | 35 | 700→1024→512→35 (rec) | adLIF | **72.1%** | Beats Loihi 2 (69.8%) |
+| **N-MNIST** | 10 | Conv2D+LIF→10 | LIF | **99.2%** | — |
+| **GSC KWS** | 12 | 40→512→12 (rec, S2S) | adLIF | **88.0%** | — |
+| **DVS Gesture** | 11 | — | — | *in progress* | — |
 
 All models trained with surrogate gradient BPTT, deployed to Catalyst FPGA hardware with int16 quantization.
 
@@ -78,7 +77,7 @@ All models trained with surrogate gradient BPTT, deployed to Catalyst FPGA hardw
 # Reproduce any benchmark
 git clone https://github.com/catalyst-neuromorphic/catalyst-benchmarks.git
 cd catalyst-benchmarks && pip install -e .
-python shd/train.py --neuron adlif --device cuda:0
+python shd/train.py --neuron adlif --hidden 1024 --epochs 200 --device cuda:0 --amp
 ```
 
 ### Simulation Performance
@@ -201,5 +200,5 @@ Back independent neuromorphic silicon development via [GitHub Sponsors](https://
 
 ---
 
-*Built by one person. 238 development phases. <!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> tests. Loihi 2 feature parity.*
+*Built by one person. <!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> tests. Loihi 2 feature parity. Beats Loihi 1 on SHD, beats Loihi 2 on SSC.*
 
