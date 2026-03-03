@@ -80,11 +80,11 @@ N3 introduces 68 architectural features — 20 beyond what N2 offered. Key diffe
 
 ---
 
-## Benchmarks
+## Benchmarks (N2)
 
 Full benchmark suite: **[catalyst-neuromorphic/catalyst-benchmarks](https://github.com/catalyst-neuromorphic/catalyst-benchmarks)** — clone, train, deploy, reproduce.
 
-| Benchmark | Classes | Architecture | Neuron | Float Acc | vs Loihi |
+| Benchmark | Classes | Architecture | Neuron | Float Acc | vs Competition |
 |---|---|---|---|---|---|
 | **SHD** | 20 | 700→1024→20 (rec) | adLIF | **90.7%** | Beats Loihi 1 (89.0%) |
 | **SSC** | 35 | 700→1024→512→35 (rec) | adLIF | **73.5%** | Beats Loihi 2 (69.8%) |
@@ -92,7 +92,9 @@ Full benchmark suite: **[catalyst-neuromorphic/catalyst-benchmarks](https://gith
 | **GSC KWS** | 12 | 40→512→12 (rec, S2S) | adLIF | **88.0%** | — |
 | **DVS Gesture** | 11 | — | — | *in progress* | — |
 
-All models trained with surrogate gradient BPTT, deployed to Catalyst FPGA hardware with int16 quantization.
+All models trained with surrogate gradient BPTT on N2 architecture, deployed to Catalyst FPGA hardware with int16 quantization.
+
+**N3 benchmarks** (with INT8 MAC hybrid, WTA, TDM, precision sweeps) — coming soon.
 
 ```bash
 # Reproduce any benchmark
