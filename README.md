@@ -1,9 +1,10 @@
 # Catalyst Neurocore
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg)](https://zenodo.org/records/18727094) 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18881283.svg)](https://zenodo.org/records/18881283)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18728256.svg)](https://zenodo.org/records/18728256)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg)](https://zenodo.org/records/18727094)
 
-We design neuromorphic chips that beat the best, but at a fraction of the cost. Our latest benchmarks managed to beat Loihi 2 on SSC (73.5% vs 69.8%) and match it on SHD (90.7% vs 90.9%). Below you may find links to our papers, cloud API (still work in progress), and other details.
+We design neuromorphic chips that beat the best, but at a fraction of the cost. N3 achieves state-of-the-art results on SSC (76.4% vs Loihi 2's 69.8%) and SHD (91.0% vs Loihi 2's 90.9%), with 3.7x better energy efficiency per neuron-op than N2 on identical FPGA hardware. Below you may find links to our papers, cloud API (still work in progress), and other details.
 
 ---
 
@@ -59,9 +60,11 @@ N3 introduces many new architectural features coming in at a count of 20 beyond 
 | **FACTOR compression** | Low-rank SVD synapse format, 2–8× savings | Not available |
 | **Winner-Take-All** | Hardware two-pass, configurable groups/k | Not available |
 
-FPGA validation: 8-core tile on AWS F2, 19/19 tests passing, 14.5K timesteps/sec, 83.3 MHz.
+FPGA validation: 8-core tile on AWS F2, 19/19 tests passing, 14,512 timesteps/sec, 62.5 MHz. Energy efficiency: 4.04 nJ/neuron-op (3.7x improvement over N2).
 
-N3 benchmarks and paper coming soon.
+**Benchmarks**: SSC **76.4%** (new SOTA, +6.6 over Loihi 2), SHD **91.0%** (#1, beating Loihi 2's 90.9%).
+
+[![N3 Paper](https://zenodo.org/badge/DOI/10.5281/zenodo.18881283.svg)](https://zenodo.org/records/18881283)
 
 ---
 
@@ -85,7 +88,7 @@ Full benchmark suite: **[catalyst-neuromorphic/catalyst-benchmarks](https://gith
 | Benchmark | Classes | Architecture | Neuron | Float Acc | vs Competition |
 |---|---|---|---|---|---|
 | **SHD** | 20 | 700→1024→20 (rec) | adLIF | **90.7%** | Beats Loihi 1 (89.0%) |
-| **SSC** | 35 | 700→1024→512→35 (rec) | adLIF | **73.5%** | Beats Loihi 2 (69.8%) |
+| **SSC** | 35 | 700→1024→512→35 (rec) | adLIF | **72.1%** | Beats Loihi 2 (69.8%) |
 | **N-MNIST** | 10 | Conv2D+LIF→10 | LIF | **99.2%** | — |
 | **GSC KWS** | 12 | 40→512→12 (rec, S2S) | adLIF | **88.0%** | — |
 | **DVS Gesture** | 11 | — | — | *in progress* | — |
@@ -193,9 +196,11 @@ You can also back development directly via [GitHub Sponsors](https://github.com/
 
 ## Papers
 
-> **Catalyst N3** — *coming soon*
+> **Catalyst N3: A 128-Core Hybrid Neuromorphic Processor with Hardware Virtualisation, Per-Tile Learning, and Silicon Metaplasticity**
 >
-> 128-Core Hybrid ANN/SNN Neuromorphic SoC with Hardware Virtualization and On-Chip Continual Learning
+> Henry Arthur Shulayev Barnes, Catalyst Neuromorphic Ltd
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18881283.svg)](https://zenodo.org/records/18881283)
 
 > **Catalyst N2: Full Loihi 2 Feature Parity in an Open Neuromorphic Processor with Programmable Neuron Microcode and Cloud FPGA Validation**
 >
@@ -223,5 +228,5 @@ I am more than open to hear from anyone with any interest in my work or in the g
 
 ---
 
-*All of this was built by one person, all 3 generations including: <!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> SDK tests, 1,011+ RTL tests, N3 with 68 features, hybrid ANN/SNN, FPGA validated, and beating Loihi 2 on SSC (73.5% vs 69.8%).*
+*All of this was built by one person, all 3 generations including: <!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> SDK tests, 1,011+ RTL tests, N3 with 68 features, hybrid ANN/SNN, FPGA validated, and beating Loihi 2 on SSC (76.4% vs 69.8%) and SHD (91.0% vs 90.9%).*
 
