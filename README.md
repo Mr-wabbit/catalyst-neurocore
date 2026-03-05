@@ -60,7 +60,7 @@ N3 introduces many new architectural features coming in at a count of 20 beyond 
 | **FACTOR compression** | Low-rank SVD synapse format, 2–8× savings | Not available |
 | **Winner-Take-All** | Hardware two-pass, configurable groups/k | Not available |
 
-FPGA validation: 8-core tile on AWS F2, 19/19 tests passing, 14,512 timesteps/sec, 62.5 MHz. Energy efficiency: 4.04 nJ/neuron-op (3.7x improvement over N2).
+FPGA validation: 8-core tile on AWS F2, 19/19 tests passing, 14,512 timesteps/sec, 83.3 MHz. Energy efficiency: 4.04 nJ/neuron-op (3.7x improvement over N2).
 
 **Benchmarks**: SSC **76.4%** (new SOTA, +6.6 over Loihi 2), SHD **91.0%** (#1, beating Loihi 2's 90.9%).
 
@@ -77,13 +77,24 @@ FPGA validation: 8-core tile on AWS F2, 19/19 tests passing, 14,512 timesteps/se
 | FPGA validation (N2) | 28/28 pass (16 cores, AWS F2, Xilinx VU47P, 62.5 MHz) |
 | FPGA validation (N3) | 19/19 pass (8 cores / 1 tile, AWS F2, 83.3 MHz) |
 | RTL testbenches | 25 (98 scenarios, 0 failures) |
-| SHD benchmark | **90.7%** (adLIF) / **<!-- STAT:SHD_FLOAT -->85.9<!-- /STAT -->%** (LIF baseline) |
+| SHD benchmark | **91.0%** (N3 adLIF) / **90.7%** (N2 adLIF) / **<!-- STAT:SHD_FLOAT -->85.9<!-- /STAT -->%** (N2 LIF baseline) |
 
 ---
 
-## Benchmarks (N2)
+## Benchmarks
 
 Full benchmark suite: **[catalyst-neuromorphic/catalyst-benchmarks](https://github.com/catalyst-neuromorphic/catalyst-benchmarks)** — clone, train, deploy, reproduce.
+
+### N3 (Latest)
+
+| Benchmark | Classes | Architecture | Neuron | Float Acc | vs Competition |
+|---|---|---|---|---|---|
+| **SSC** | 35 | 700→1024→512→35 (rec) | adLIF | **76.4%** | **#1 SOTA** (+6.6 over Loihi 2) |
+| **SHD** | 20 | 700→1536→20 (rec) | adLIF | **91.0%** | **#1** (beats Loihi 2's 90.9%) |
+
+All N3 models use adaptive LIF neurons with surrogate gradient BPTT and cosine LR scheduling. N-MNIST and GSC training on N3 architecture is in progress.
+
+### N2
 
 | Benchmark | Classes | Architecture | Neuron | Float Acc | vs Competition |
 |---|---|---|---|---|---|
@@ -93,13 +104,13 @@ Full benchmark suite: **[catalyst-neuromorphic/catalyst-benchmarks](https://gith
 | **GSC KWS** | 12 | 40→512→12 (rec, S2S) | adLIF | **88.0%** | — |
 | **DVS Gesture** | 11 | — | — | *in progress* | — |
 
-All models have been trained with surrogate gradient BPTT on N2 architecture, then deployed to Catalyst FPGA hardware with int16 quantization. N3 benchmarks are coming soon.
+All N2 models trained with surrogate gradient BPTT and deployed to Catalyst FPGA hardware with int16 quantization.
 
 ```bash
 # Reproduce any benchmark
 git clone https://github.com/catalyst-neuromorphic/catalyst-benchmarks.git
 cd catalyst-benchmarks && pip install -e .
-python shd/train.py --neuron adlif --hidden 1024 --epochs 200 --device cuda:0 --amp
+python shd/train.py --neuron adlif --hidden 1536 --epochs 200 --device cuda:0 --amp
 ```
 
 ### Simulation Performance
@@ -112,9 +123,9 @@ python shd/train.py --neuron adlif --hidden 1024 --epochs 200 --device cuda:0 --
 
 ---
 
-## Feature Parity Scorecard
+## Feature Parity Scorecard (N2)
 
-Full comparison against Intel Loihi 1 and Loihi 2:
+N2 matches every documented Loihi 2 feature. N3 goes beyond with 20 additional capabilities (see above).
 
 | Category | Loihi 1 | Loihi 2 | Catalyst |
 |---|---|---|---|
@@ -214,7 +225,7 @@ You can also back development directly via [GitHub Sponsors](https://github.com/
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg)](https://zenodo.org/records/18727094)
 
-**[N2 Paper (PDF)](https://catalyst-neuromorphic.com/papers/catalyst-n2.pdf)** | **[N1 Paper (Zenodo)](https://zenodo.org/records/18727094)**
+**[N3 Paper (PDF)](https://catalyst-neuromorphic.com/papers/catalyst-n3.pdf)** | **[N2 Paper (PDF)](https://catalyst-neuromorphic.com/papers/catalyst-n2.pdf)** | **[N1 Paper (Zenodo)](https://zenodo.org/records/18727094)**
 
 ---
 
