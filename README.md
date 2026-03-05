@@ -77,7 +77,7 @@ FPGA validation: 8-core tile on AWS F2, 19/19 tests passing, 14,512 timesteps/se
 | FPGA validation (N2) | 28/28 pass (16 cores, AWS F2, Xilinx VU47P, 62.5 MHz) |
 | FPGA validation (N3) | 19/19 pass (8 cores / 1 tile, AWS F2, 83.3 MHz) |
 | RTL testbenches | 25 (98 scenarios, 0 failures) |
-| SHD benchmark | **91.0%** (N3 adLIF) / **90.7%** (N2 adLIF) / **<!-- STAT:SHD_FLOAT -->85.9<!-- /STAT -->%** (N2 LIF baseline) |
+| SHD benchmark | **91.0%** (N3 adLIF) / **90.7%** (N2 adLIF) / **<!-- STAT:SHD_FLOAT -->90.7<!-- /STAT -->%** (N2 LIF baseline) |
 
 ---
 
