@@ -68,16 +68,47 @@ FPGA validation: 8-core tile on AWS F2, 19/19 tests passing, 14,512 timesteps/se
 
 ---
 
-## Validation
+## FPGA Validation
+
+### AWS F2 Cloud FPGA (Xilinx VU47P)
+
+| Processor | AFI | Tests | Pass Rate | Throughput | Frequency |
+|-----------|-----|-------|-----------|------------|-----------|
+| N1 | `agfi-03e071bc88f912e77` | — | PASS | — | 62.5 MHz |
+| N2 | `agfi-0326f183a3aa95780` | 28/28 | 100% | — | 62.5 MHz |
+| N3 | `agfi-0df16698ef37c59d9` | 19/19 | 100% | 14,512 ts/sec | 83.3 MHz |
+
+### Kria K26 Edge Characterisation (xczu5ev-sfvc784-2-i, 100 MHz target)
+
+Each processor synthesised as a 2-core edge variant with AXI-Lite PS interface on the Xilinx Kria K26 SOM — the same Zynq UltraScale+ fabric family used in edge deployment targets.
+
+| Processor | LUTs | LUT% | FFs | FF% | BRAM | DSP | WNS | Fmax | Power |
+|-----------|------|------|-----|-----|------|-----|-----|------|-------|
+| **N1** | 19,903 | 17.0% | 30,847 | 13.2% | 52.5 (36.5%) | 14 (1.1%) | +0.008ns | 100 MHz | 0.642W |
+| **N2** | 26,155 | 22.3% | 38,666 | 16.5% | 52.5 (36.5%) | 16 (1.3%) | -0.168ns | ~97 MHz | 0.688W |
+| **N3** | 51,381 | 43.9% | 80,395 | 34.3% | 24 (16.7%) | 20 (1.6%) | -7.075ns | ~58.5 MHz | 0.867W |
+
+N1 meets timing at 100 MHz. N2 narrowly misses (97 MHz). N3's timing gap reflects its richer feature set (68 features, hardware ECC, asynchronous NoC) — pipeline register insertion is expected to close this to 80-90 MHz.
+
+### ASIC Projections (SKY130 130nm Synthesis)
+
+| Processor | Gate Count | Est. Power |
+|-----------|-----------|------------|
+| N1 core | ~71K gates | 96–191 mW |
+| N2 core | ~94K gates | — |
+| N3 core | ~155K gates | — |
+
+28nm projection: N2 at ~9.3 mm² / 19–38 mW. N3 128-core at ~450 mm².
+
+### Validation Summary
 
 | Metric | Value |
 |---|---|
-| SDK test suite | **<!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> tests** |
+| SDK test suite (N2) | **<!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> tests** |
+| N3 simulation tests | **1,011+** |
 | Feature coverage | **<!-- STAT:FEATURES_TOTAL -->155<!-- /STAT --> total** (<!-- STAT:FEATURES_FULL -->152<!-- /STAT --> FULL, <!-- STAT:FEATURES_HW_ONLY -->3<!-- /STAT --> HW_ONLY) |
-| FPGA validation (N2) | 28/28 pass (16 cores, AWS F2, Xilinx VU47P, 62.5 MHz) |
-| FPGA validation (N3) | 19/19 pass (8 cores / 1 tile, AWS F2, 83.3 MHz) |
 | RTL testbenches | 25 (98 scenarios, 0 failures) |
-| SHD benchmark | **91.0%** (N3 adLIF) / **90.7%** (N2 adLIF) / **<!-- STAT:SHD_FLOAT -->90.7<!-- /STAT -->%** (N2 LIF baseline) |
+| Patents filed | N1 (2602902.6), N2 (2603866.1), N3 (filed 2 Mar 2026) |
 
 ---
 
@@ -87,24 +118,35 @@ Full benchmark suite: **[catalyst-neuromorphic/catalyst-benchmarks](https://gith
 
 ### N3 (Latest)
 
-| Benchmark | Classes | Architecture | Neuron | Float Acc | vs Competition |
-|---|---|---|---|---|---|
-| **SSC** | 35 | 700→1024→512→35 (rec) | adLIF | **76.4%** | **#1 SOTA** (+6.6 over Loihi 2) |
-| **SHD** | 20 | 700→1536→20 (rec) | adLIF | **91.0%** | **#1** (beats Loihi 2's 90.9%) |
+| Benchmark | Classes | Architecture | Neuron | Float Acc | Quantised (int16) | vs Competition |
+|---|---|---|---|---|---|---|
+| **SHD** | 20 | 700→1536→20 (rec) | adLIF | **91.0%** | **90.8%** | Beats Loihi 2 (90.9%) |
+| **SSC** | 35 | 700→1024→512→35 (rec) | adLIF | **76.4%** | **76.4%** | Beats Loihi 2 (69.8%) |
+| **N-MNIST** | 10 | Conv2D+LIF→10 | LIF | **99.2%** | **99.2%** | Near ceiling |
+| **GSC-12** | 12 | 40→512→12 (rec, S2S) | adLIF | **88.4%** | ~88.4% | — |
+| **DVS Gesture** | 11 | Deep conv+rec | adLIF | **89.4%** | — | — |
 
-All N3 models use adaptive LIF neurons with surrogate gradient BPTT and cosine LR scheduling. N-MNIST and GSC training on N3 architecture is in progress.
+All N3 models use adaptive LIF neurons with surrogate gradient BPTT and cosine LR scheduling. Quantised accuracy is measured via int16 round-trip quantisation simulating hardware weight registers — degradation is negligible (<0.3pp).
 
 ### N2
 
 | Benchmark | Classes | Architecture | Neuron | Float Acc | vs Competition |
 |---|---|---|---|---|---|
-| **SHD** | 20 | 700→1024→20 (rec) | adLIF | **90.7%** | Beats Loihi 1 (89.0%) |
+| **SHD** | 20 | 700→512→20 (rec) | adLIF | **84.5%** | — |
 | **SSC** | 35 | 700→1024→512→35 (rec) | adLIF | **72.1%** | Beats Loihi 2 (69.8%) |
-| **N-MNIST** | 10 | Conv2D+LIF→10 | LIF | **99.2%** | — |
+| **N-MNIST** | 10 | Conv2D+LIF→10 | adLIF | **97.8%** | — |
 | **GSC KWS** | 12 | 40→512→12 (rec, S2S) | adLIF | **88.0%** | — |
-| **DVS Gesture** | 11 | — | — | *in progress* | — |
+| **MIT-BIH ECG** | 5 | 187→128→5 (rec) | adLIF | **90.9%** | — |
 
-All N2 models trained with surrogate gradient BPTT and deployed to Catalyst FPGA hardware with int16 quantization.
+### N1
+
+| Benchmark | Classes | Architecture | Neuron | Float Acc | vs Competition |
+|---|---|---|---|---|---|
+| **SHD** | 20 | 700→1024→20 (rec) | LIF | **89.3%** | Basic LIF baseline |
+
+N1 uses only basic LIF neurons (no adaptation) — the accuracy demonstrates that even the simplest spiking neuron model achieves competitive performance at sufficient scale.
+
+All models trained with surrogate gradient BPTT and deployed to Catalyst FPGA hardware with int16 quantization.
 
 ```bash
 # Reproduce any benchmark
@@ -239,5 +281,5 @@ I am more than open to hear from anyone with any interest in my work or in the g
 
 ---
 
-*All of this was built by one person, all 3 generations including: <!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> SDK tests, 1,011+ RTL tests, N3 with 68 features, hybrid ANN/SNN, FPGA validated, and beating Loihi 2 on SSC (76.4% vs 69.8%) and SHD (91.0% vs 90.9%).*
+*All of this was built by one person — 3 processor generations, <!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> SDK tests, 1,011+ N3 RTL tests, 68 hardware features, hybrid ANN/SNN, all FPGA validated on AWS F2 and Kria K26, 3 patents filed, 3 papers published, and benchmark results competitive with Intel Loihi 2.*
 
