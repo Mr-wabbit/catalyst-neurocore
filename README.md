@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18881283.svg)](https://zenodo.org/records/18881283)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18728256.svg)](https://zenodo.org/records/18728256)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg?v=2)](https://zenodo.org/records/18727094)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg)](https://zenodo.org/records/18727094)
 
 We design neuromorphic chips that beat the best, but at a fraction of the cost. N3 achieves 76.4% on SSC (vs Loihi 2's 69.8%) and 91.0% on SHD (matching Loihi 2's 90.9%), with 3.7x better energy efficiency per neuron-op than N2 on identical FPGA hardware. Below you may find links to our papers, cloud API (still work in progress), and other details.
 
@@ -265,7 +265,7 @@ You can also back development directly via [GitHub Sponsors](https://github.com/
 >
 > Henry Arthur Shulayev Barnes, University of Aberdeen
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg?v=2)](https://zenodo.org/records/18727094)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg)](https://zenodo.org/records/18727094)
 
 **[N3 Paper (PDF)](https://catalyst-neuromorphic.com/papers/catalyst-n3.pdf)** | **[N2 Paper (PDF)](https://catalyst-neuromorphic.com/papers/catalyst-n2.pdf)** | **[N1 Paper (Zenodo)](https://zenodo.org/records/18727094)**
 
