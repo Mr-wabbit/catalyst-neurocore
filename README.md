@@ -77,7 +77,6 @@ FPGA validation: 8-core tile on AWS F2, 19/19 tests passing, 14,512 timesteps/se
 | N1 | `agfi-03e071bc88f912e77` | — | PASS | — | 62.5 MHz |
 | N2 | `agfi-0326f183a3aa95780` | 28/28 | 100% | 8,690 ts/sec | 62.5 MHz |
 | N3 | `agfi-0df16698ef37c59d9` | 19/19 | 100% | 14,512 ts/sec | 62.5 MHz |
-| N4-Edge | `agfi-0e706213dcd11d40e` | 126/126 | 100% | 15,668 ts/sec | 62.5 MHz |
 
 ### Kria K26 Edge Characterisation (xczu5ev-sfvc784-2-i, 100 MHz target)
 
@@ -88,9 +87,8 @@ Each processor synthesised as a 2-core edge variant with AXI-Lite PS interface o
 | **N1** | 20,109 | 17.2% | 30,847 | 13.2% | 52.5 (36.5%) | 14 (1.1%) | +0.008ns | 100 MHz | 0.642W |
 | **N2** | 26,431 | 22.6% | 38,666 | 16.5% | 52.5 (36.5%) | 16 (1.3%) | -0.168ns | ~97 MHz | 0.688W |
 | **N3** | 53,420 | 45.6% | 80,395 | 34.3% | 24 (16.7%) | 20 (1.6%) | -7.075ns | ~58.5 MHz | 0.867W |
-| **N4-Edge** | 3,083 | 2.6% | — | — | 0 (0%) | 0 (0%) | +3.301ns | 100 MHz | 0.378W |
 
-N1 meets timing at 100 MHz. N2 narrowly misses (97 MHz). N3's timing gap reflects its richer feature set (68 features, hardware ECC, asynchronous NoC) — pipeline register insertion is expected to close this to 80-90 MHz. N4-Edge uses zero BRAM and zero DSP — its Spike Tensor Core operates on binary spikes using conditional-add logic, leaving all dedicated blocks free for sensor interfaces.
+N1 meets timing at 100 MHz. N2 narrowly misses (97 MHz). N3's timing gap reflects its richer feature set (68 features, hardware ECC, asynchronous NoC) — pipeline register insertion is expected to close this to 80-90 MHz.
 
 ### ASIC Projections (SKY130 130nm Synthesis)
 
@@ -110,7 +108,7 @@ N1 meets timing at 100 MHz. N2 narrowly misses (97 MHz). N3's timing gap reflect
 | N3 simulation tests | **1,011+** |
 | Feature coverage | **<!-- STAT:FEATURES_TOTAL -->155<!-- /STAT --> total** (<!-- STAT:FEATURES_FULL -->152<!-- /STAT --> FULL, <!-- STAT:FEATURES_HW_ONLY -->3<!-- /STAT --> HW_ONLY) |
 | RTL testbenches | 25 (98 scenarios, 0 failures) |
-| Patents filed | N1 (2602902.6), N2 (2603866.1), N3 (filed 2 Mar 2026), N4 (filed 5 Mar 2026) |
+| Patents filed | N1 (2602902.6), N2 (2603866.1), N3 (filed 2 Mar 2026) |
 
 ---
 
@@ -296,5 +294,5 @@ I am more than open to hear from anyone with any interest in my work or in the g
 
 ---
 
-*All of this was built by one person — 3 processor generations, <!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> SDK tests, 1,011+ N3 RTL tests, 68 hardware features, hybrid ANN/SNN, all FPGA validated on AWS F2 and Kria K26, 4 patents filed, 3 papers published, and benchmark results competitive with Intel Loihi 2.*
+*All of this was built by one person — 3 processor generations, <!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> SDK tests, 1,011+ N3 RTL tests, 68 hardware features, hybrid ANN/SNN, all FPGA validated on AWS F2 and Kria K26, 3 patents filed, 3 papers published, and benchmark results competitive with Intel Loihi 2.*
 
