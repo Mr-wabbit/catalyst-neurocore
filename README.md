@@ -104,11 +104,11 @@ N1 meets timing at 100 MHz. N2 narrowly misses (97 MHz). N3's timing gap reflect
 
 | Metric | Value |
 |---|---|
-| SDK test suite (N2) | **<!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> tests** |
-| N3 simulation tests | **1,011+** |
+| FPGA clock | **62.5 MHz** (N1, N2), **83.3 MHz** (N3) |
+| FPGA power | **1.847 W** (N1), **1.913 W** (N2), **1.923 W** (N3) |
+| ASIC projection (28 nm) | **9.3 mm², 19-38 mW** (N2) |
 | Feature coverage | **<!-- STAT:FEATURES_TOTAL -->155<!-- /STAT --> total** (<!-- STAT:FEATURES_FULL -->152<!-- /STAT --> FULL, <!-- STAT:FEATURES_HW_ONLY -->3<!-- /STAT --> HW_ONLY) |
-| RTL testbenches | 25 (98 scenarios, 0 failures) |
-| Patents filed | N1 (2602902.6), N2 (2603866.1), N3 (filed 2 Mar 2026) |
+| Kria K26 LUT (N4-Edge) | **3,083 (2.6%)** at 0.378 W |
 
 ---
 
@@ -294,5 +294,5 @@ I am more than open to hear from anyone with any interest in my work or in the g
 
 ---
 
-*All of this was built by one person — 3 processor generations, <!-- STAT:TEST_COUNT -->3,091<!-- /STAT --> SDK tests, 1,011+ N3 RTL tests, 68 hardware features, hybrid ANN/SNN, all FPGA validated on AWS F2 and Kria K26, 3 patents filed, 3 papers published, and benchmark results competitive with Intel Loihi 2.*
+*All of this was built by one person — 4 processor generations, FPGA validated on AWS F2 and Kria K26, benchmark accuracy exceeding Intel Loihi 2 on temporal classification, ASIC projections at 28 nm targeting 100-300 mW, and a production Cloud API.*
 
