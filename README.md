@@ -4,6 +4,23 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18728256.svg)](https://zenodo.org/records/18728256)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18727094.svg)](https://zenodo.org/records/18727094)
 
+## N1 is now open source
+
+The Catalyst N1 neuromorphic processor is fully open source under the Apache 2.0 license. 128 cores, 131,072 neurons, 14-opcode microcode learning engine, dual-network NoC, triple RV32IMF cluster, FPGA-validated on AWS F2 at 62.5 MHz. Full RTL, testbenches, SDK, and FPGA build scripts included.
+
+**[github.com/catalyst-neuromorphic/catalyst-n1](https://github.com/catalyst-neuromorphic/catalyst-n1)**
+
+| | |
+|---|---|
+| Architecture | 128 cores, 1,024 CUBA LIF neurons/core, 131K synapses/core |
+| Learning | 14-opcode microcode ISA, STDP, 3-factor reward-modulated, eligibility traces |
+| Interconnect | Barrier mesh + async packet-routed NoC, multi-chip serial links |
+| Embedded compute | Triple RV32IMF RISC-V cluster |
+| FPGA | AWS F2 (VU47P) at 62.5 MHz, Kria K26 (ZU5EV) at 100 MHz |
+| Parity target | Intel Loihi 1 |
+
+---
+
 We design neuromorphic chips that beat the best, but at a fraction of the cost. N3 achieves 76.4% on SSC (vs Loihi 2's 69.8%) and 91.0% on SHD (matching Loihi 2's 90.9%), with 3.7x better energy efficiency per neuron-op than N2 on identical FPGA hardware. Below you may find links to our papers, cloud API (still work in progress), and other details.
 
 ---
